@@ -5,7 +5,7 @@ const getAllBooksService = async () => {
     const books = await getAllBooks();
     return { books: books };
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 };
 

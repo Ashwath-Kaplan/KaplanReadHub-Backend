@@ -1,16 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const userRoutes = require("./routes/user-routes");
-const bookRoutes = require("./routes/book-routes");
+const routes = require("./routes/routes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/kaplanreadhub/users/", userRoutes);
-app.use("/kaplanreadhub/books/", bookRoutes);
+app.use("/api/v1/kaplanreadhub/", routes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

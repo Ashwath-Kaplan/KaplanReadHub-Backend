@@ -1,10 +1,10 @@
 const { pool } = require("../database");
 const {
   insertUserSql,
-  checkUserEmailSql,
+  selectUserByEmailSql,
   updateLogoutStatusSql,
   updateLoginStatusSql,
-} = require("../sql-query");
+} = require("./sql-query");
 
 const addNewUser = async (userDetails) => {
   const { firstName, lastName, email, password } = userDetails;
@@ -17,13 +17,13 @@ const addNewUser = async (userDetails) => {
   }
 };
 
-const checkUserEmail = async (email) => {
+const selectUserByEmail = async (email) => {
   try {
     // Fetch the rows with the same email
-    const [rows] = await pool.query(checkUserEmailSql, email);
+    const [rows] = await pool.query(selectUserByEmailSql, email);
     return rows;
   } catch (error) {
-    throw new Error("Error checking email !");
+    throw new Error("Error fetchng user !");
   }
 };
 
@@ -47,4 +47,4 @@ const loginUser = async (userId) => {
   }
 };
 
-module.exports = { addNewUser, checkUserEmail, logoutUser, loginUser };
+module.exports = { addNewUser, selectUserByEmail, logoutUser, loginUser };

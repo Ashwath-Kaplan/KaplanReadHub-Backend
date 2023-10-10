@@ -9,4 +9,4 @@ var pool = mysql
   })
   .promise();
 
-module.exports = { pool: pool };
+module.exports = { pool };

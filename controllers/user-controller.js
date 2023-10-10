@@ -1,8 +1,10 @@
+const { base64ToString } = require("../helpers/auth-helpers");
 const { isValidEmail } = require("../helpers/validate-email");
 const {
   addUserService,
   loginUserService,
   logoutUserService,
+  getUserService,
 } = require("../services/user-service");
 
 const addUser = async (req, res) => {
@@ -23,14 +25,13 @@ const addUser = async (req, res) => {
       throw new Error("Valid password is required !");
     }
 
+    // Convert password from type base64 to string
+    userDetails.password = base64ToString(password);
+
     const result = await addUserService(userDetails);
-    if (result.success) {
-      return res
-        .status(200)
-        .json({ success: result.success, message: result.message });
-    } else {
-      throw new Error(result.message);
-    }
+    return res
+      .status(200)
+      .json({ success: result.success, message: result.message });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -76,4 +77,12 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { addUser, login, logout };
+const getUser = async (req, res) => {
+  const result = await getUserService(req.user.email);
+
+  return res.status(200).json({
+    user: result.user,
+  });
+};
+
+module.exports = { addUser, login, logout, getUser };
