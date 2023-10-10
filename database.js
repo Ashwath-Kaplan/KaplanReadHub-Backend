@@ -1,10 +1,12 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "kaplan_readhub",
-});
+var pool = mysql
+  .createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_ROOT,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  })
+  .promise();
 
-module.exports = connection;
+module.exports = { pool: pool };
