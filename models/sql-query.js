@@ -1,6 +1,6 @@
 module.exports = {
   selectAllUsersSql: "SELECT * FROM users",
-  selectAllBooksSql: "SELECT * FROM books",
+  selectBooksSql: "SELECT * FROM books LIMIT ?, ?",
   selectUserByEmailSql: "SELECT * FROM users WHERE Email = ?",
   insertUserSql:
     "INSERT INTO users(FirstName, LastName, Email, `Password`) VALUES (?, ?, ?, ?)",

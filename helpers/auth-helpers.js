@@ -20,7 +20,7 @@ const comparePassword = async (password, hashedPassword) => {
 };
 
 const tokenGeneration = (email) => {
-  return sign({ email }, process.env.SECRET, { expiresIn: "3d" });
+  return sign({ email }, process.env.SECRET, { expiresIn: process.env.EXPIRY });
 };
 
 const base64ToString = (password) => {

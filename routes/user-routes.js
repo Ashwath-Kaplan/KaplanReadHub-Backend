@@ -10,7 +10,7 @@ const { tokenVerification } = require("../middlewares/token-verification");
 
 router.post("/adduser", addUser);
 router.post("/login", login);
-router.post("/logout", logout);
+router.post("/logout", tokenVerification, logout);
 router.get("/getuser", tokenVerification, getUser);
 
 module.exports = router;

@@ -9,24 +9,23 @@ const {
 
 const addUser = async (req, res) => {
   try {
-    var userDetails = req.body;
-    var { firstName, lastName, email, password } = userDetails;
+    let userDetails = req.body;
 
-    if (!firstName) {
+    if (!userDetails.firstName) {
       throw new Error("Valid First name is required !");
     }
-    if (!lastName) {
+    if (!userDetails.lastName) {
       throw new Error("Valid last name is required !");
     }
-    if (!email || !isValidEmail(email)) {
+    if (!userDetails.email || !isValidEmail(userDetails.email)) {
       throw new Error("Valid email is required !");
     }
-    if (!password) {
+    if (!userDetails.password) {
       throw new Error("Valid password is required !");
     }
 
     // Convert password from type base64 to string
-    userDetails.password = base64ToString(password);
+    userDetails.password = base64ToString(userDetails.password);
 
     const result = await addUserService(userDetails);
     return res
@@ -39,7 +38,7 @@ const addUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    var { email, password } = req.body;
 
     if (!email || !isValidEmail(email)) {
       throw new Error("Valid email is required !");
@@ -47,6 +46,8 @@ const login = async (req, res) => {
     if (!password) {
       throw new Error("Valid password is required !");
     }
+
+    password = base64ToString(password);
 
     const result = await loginUserService(email, password);
     return res.status(200).json({
@@ -62,13 +63,11 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const { email } = req.body;
-
-    if (!email || !isValidEmail(email)) {
+    if (!req.user.email || !isValidEmail(req.user.email)) {
       throw new Error("Valid email is required !");
     }
 
-    const result = await logoutUserService(email);
+    const result = await logoutUserService(req.user.email);
     return res
       .status(200)
       .json({ success: result.success, message: result.message });
